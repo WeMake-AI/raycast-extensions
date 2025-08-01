@@ -6,7 +6,6 @@
   "bugs": "https://github.com/WeMake-AI/raycast-extensions/issues",
   "homepage": "https://github.com/WeMake-AI/raycast-extensions",
   "license": "MIT",
-  "type": "module",
   "private": true,
   "workspaces": [
     "src/*"
