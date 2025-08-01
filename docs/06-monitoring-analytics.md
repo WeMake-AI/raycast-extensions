@@ -1992,14 +1992,14 @@ class PrivacyManager {
       return data;
     }
 
-    const anonymized = { ...data };
-
     // Remove or hash sensitive fields
     const sensitiveFields = ["email", "username", "userId", "sessionId"];
 
     for (const field of sensitiveFields) {
       if (anonymized[field]) {
-        anonymized[field] = this.hashValue(anonymized[field]);
+        if (typeof anonymized[field] === "string") {
+          anonymized[field] = this.hashValue(anonymized[field]);
+        }
       }
     }
 
@@ -2015,13 +2015,8 @@ class PrivacyManager {
 
   private hashValue(value: string): string {
     return (
-      "hash_" +
-      createHash("sha256")
-        .update(value, "utf8")
-        .digest("hex")
-        .slice(0, 32) // shorten if needed
+      "hash_" + createHash("sha256").update(value, "utf8").digest("hex").slice(0, 32) // shorten if needed
     );
-  }
   }
 }
 
