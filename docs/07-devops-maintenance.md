@@ -1293,7 +1293,7 @@ export { DependencyUpdater };
 
 #### Git Hooks
 
-```bash
+```sh
 #!/bin/sh
 # .husky/pre-commit
 . "$(dirname "$0")/_/husky.sh"
@@ -1315,7 +1315,7 @@ bun run security:check-secrets
 git add .
 ```
 
-```bash
+```sh
 #!/bin/sh
 # .husky/commit-msg
 . "$(dirname "$0")/_/husky.sh"
@@ -1324,7 +1324,7 @@ git add .
 bun run scripts/validate-commit-msg.ts "$1"
 ```
 
-```bash
+```sh
 #!/bin/sh
 # .husky/pre-push
 . "$(dirname "$0")/_/husky.sh"
@@ -2363,7 +2363,7 @@ export { PerformanceMonitor };
 
 ### Development Commands
 
-```bash
+```sh
 # Code Quality
 bun run lint              # Run ESLint
 bun run lint:fix          # Fix ESLint issues
@@ -2399,7 +2399,7 @@ bun run docs:deploy       # Deploy documentation
 
 ### CI/CD Commands
 
-```bash
+```sh
 # CI Pipeline
 bun run ci:lint           # CI linting
 bun run ci:test           # CI testing

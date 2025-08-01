@@ -1087,7 +1087,7 @@ export default defineConfig({
 
 ### Quality Gates
 
-```bash
+```sh
 #!/bin/bash
 # scripts/quality-gate.sh
 
@@ -1257,7 +1257,7 @@ export function createTestData() {
 
 ## 🚀 Running Tests
 
-```bash
+```sh
 # Run all tests
 bun run test
 

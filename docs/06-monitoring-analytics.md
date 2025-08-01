@@ -1955,7 +1955,7 @@ export const dataRetentionManager = new DataRetentionManager();
 
 ## 🛠️ Development Commands
 
-```bash
+```sh
 # Setup analytics
 bun run analytics:setup
 

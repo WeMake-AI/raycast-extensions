@@ -100,7 +100,7 @@ src/my-extension/
 
 ### 1. Creating a New Extension
 
-```bash
+```sh
 # Navigate to src directory
 cd src
 
@@ -117,7 +117,7 @@ bunx nx generate @nx/js:library my-new-extension --directory=src
 
 ### 2. Development Cycle
 
-```bash
+```sh
 # Start development mode
 bun run dev
 
@@ -130,7 +130,7 @@ bun run dev
 
 ### 3. Code Quality Checks
 
-```bash
+```sh
 # Run linting
 bun run lint
 
@@ -933,7 +933,7 @@ export const OptimizedList = memo(function OptimizedList({ items, searchText }: 
 
 ## 🔄 Development Commands
 
-```bash
+```sh
 # Development workflow
 bun run dev          # Start development mode
 bun run build        # Build extension
@@ -951,11 +951,11 @@ bunx nx run-many --target=test --all  # Test all extensions
 
 ## 📚 Resources
 
-- **Raycast API Documentation**: https://developers.raycast.com
-- **AI SDK Documentation**: https://sdk.vercel.ai
-- **MCP Protocol**: https://modelcontextprotocol.io
-- **TypeScript Handbook**: https://www.typescriptlang.org/docs
-- **React Documentation**: https://react.dev
+- **Raycast API Documentation**: <https://developers.raycast.com>
+- **AI SDK Documentation**: <https://sdk.vercel.ai>
+- **MCP Protocol**: <https://modelcontextprotocol.io>
+- **TypeScript Handbook**: <https://www.typescriptlang.org/docs>
+- **React Documentation**: <https://react.dev>
 
 ---
 

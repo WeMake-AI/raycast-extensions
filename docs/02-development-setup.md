@@ -18,7 +18,7 @@ these steps to ensure a consistent and optimized development experience.
 
 #### 1. Raycast Application
 
-```bash
+```sh
 # Install via Homebrew (recommended)
 brew install --cask raycast
 
@@ -29,7 +29,7 @@ brew install --cask raycast
 
 **Verification**:
 
-```bash
+```sh
 # Check Raycast version
 open -a Raycast
 # Go to Raycast Settings > About
@@ -39,7 +39,7 @@ open -a Raycast
 
 **Required Version**: Node.js 22.14 or higher
 
-```bash
+```sh
 # Install via nvm (recommended for version management)
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 
@@ -60,7 +60,7 @@ npm --version
 
 **Bun** is our primary JavaScript runtime and package manager for superior performance.
 
-```bash
+```sh
 # Install Bun
 curl -fsSL https://bun.sh/install | bash
 
@@ -73,7 +73,7 @@ bun --version  # Should show latest version
 
 #### 4. Git & GitHub CLI
 
-```bash
+```sh
 # Install Git (if not already installed)
 brew install git
 
@@ -88,7 +88,7 @@ gh auth login
 
 ### 1. Clone the Repository
 
-```bash
+```sh
 # Clone the monorepo
 gh repo clone WeMake-AI/raycast-extensions
 cd raycast-extensions
@@ -100,7 +100,7 @@ cd raycast-extensions
 
 ### 2. Install Dependencies
 
-```bash
+```sh
 # Install all dependencies using Bun
 bun install
 
@@ -113,7 +113,7 @@ bun install
 
 ### 3. Verify Installation
 
-```bash
+```sh
 # Run workspace health check
 bun run check
 
@@ -129,7 +129,7 @@ bun run check
 
 #### Install VS Code
 
-```bash
+```sh
 brew install --cask visual-studio-code
 ```
 
@@ -137,7 +137,7 @@ brew install --cask visual-studio-code
 
 Install these extensions for optimal development experience:
 
-```bash
+```sh
 # Install via command line
 code --install-extension tonka3000.raycast
 code --install-extension ms-vscode.vscode-typescript-next
@@ -175,7 +175,7 @@ The repository includes pre-configured VS Code settings in `.vscode/settings.jso
 
 Add these aliases to your `~/.zshrc` for faster development:
 
-```bash
+```sh
 # Raycast Extensions aliases
 alias re="cd ~/path/to/raycast-extensions"
 alias red="bun run dev"
@@ -202,7 +202,7 @@ Our monorepo uses Nx for:
 
 ### Nx Commands
 
-```bash
+```sh
 # Generate new extension
 bunx nx generate @nx/js:library my-extension --directory=src
 
@@ -243,7 +243,7 @@ This provides:
 
 ### 1. Generate Extension Structure
 
-```bash
+```sh
 # Navigate to workspace root
 cd raycast-extensions
 
@@ -287,7 +287,7 @@ Update `package.json` with WeMake AI standards:
 
 ### 3. Development Workflow
 
-```bash
+```sh
 # Start development mode
 bun run dev
 
@@ -304,7 +304,7 @@ bun run dev
 
 Run this comprehensive check:
 
-```bash
+```sh
 #!/bin/bash
 # save as scripts/verify-setup.sh
 
@@ -358,7 +358,7 @@ fi
 echo "\n🎉 Environment verification complete!"
 ```
 
-```bash
+```sh
 # Make script executable and run
 chmod +x scripts/verify-setup.sh
 ./scripts/verify-setup.sh
@@ -366,7 +366,7 @@ chmod +x scripts/verify-setup.sh
 
 ### Test Extension Development
 
-```bash
+```sh
 # Navigate to getting-started extension
 cd src/getting-started
 
@@ -386,7 +386,7 @@ bun run dev
 
 #### 1. Raycast Not Detecting Extensions
 
-```bash
+```sh
 # Ensure Raycast is running
 open -a Raycast
 
@@ -399,7 +399,7 @@ bun run dev
 
 #### 2. Bun Installation Issues
 
-```bash
+```sh
 # Reinstall Bun
 curl -fsSL https://bun.sh/install | bash
 
@@ -413,7 +413,7 @@ bun install
 
 #### 3. TypeScript Errors
 
-```bash
+```sh
 # Check TypeScript configuration
 bun run tsc
 
@@ -426,7 +426,7 @@ bun add -D typescript@latest
 
 #### 4. Nx Issues
 
-```bash
+```sh
 # Clear Nx cache
 bunx nx reset
 
@@ -440,8 +440,8 @@ bunx nx --version
 ### Getting Help
 
 1. **Internal Documentation**: Check other docs in this folder
-2. **Raycast Documentation**: https://developers.raycast.com
-3. **Nx Documentation**: https://nx.dev
+2. **Raycast Documentation**: <https://developers.raycast.com>
+3. **Nx Documentation**: <https://nx.dev>
 4. **Team Slack**: #raycast-extensions channel
 5. **GitHub Issues**: Create issue in repository
 

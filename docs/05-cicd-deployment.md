@@ -960,7 +960,7 @@ class DeploymentMonitor {
 
 ### Automated Rollback
 
-```bash
+```sh
 #!/bin/bash
 # scripts/rollback.sh
 
@@ -1119,7 +1119,7 @@ jobs:
 
 ## 🚀 Quick Commands
 
-```bash
+```sh
 # Build all extensions
 bun nx run-many --target=build --all
 
