@@ -1221,7 +1221,7 @@ export function getAnalyticsConfig(): AnalyticsEnvironmentConfig {
       "required": false,
       "title": "Enable Error Reporting",
       "description": "Automatically report errors to help fix issues",
-      "default": true
+      "default": false
     },
     {
       "name": "enablePerformanceTracking",
@@ -1229,7 +1229,7 @@ export function getAnalyticsConfig(): AnalyticsEnvironmentConfig {
       "required": false,
       "title": "Enable Performance Tracking",
       "description": "Track performance metrics to optimize the extension",
-      "default": true
+      "default": false
     }
   ]
 }
