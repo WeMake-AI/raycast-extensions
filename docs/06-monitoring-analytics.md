@@ -137,7 +137,7 @@ class PostHogAnalytics {
       const preferences = getPreferenceValues<{ enableAnalytics?: boolean }>();
       return preferences.enableAnalytics === true; // Default to *disabled* until opted-in
     } catch {
-      return true; // Default to enabled if preferences unavailable
+      return false; // Default to disabled if preferences unavailable
     }
   }
 
