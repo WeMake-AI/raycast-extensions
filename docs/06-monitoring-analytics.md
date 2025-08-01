@@ -231,7 +231,7 @@ class PostHogAnalytics {
   /**
    * Track performance metrics
    */
-  trackPerformance(metrics: Partial<ExtensionMetrics>): void {
+  trackPerformance(metrics: Record<string, number>): void {
     this.track("performance_metrics", metrics);
   }
 
@@ -317,6 +317,8 @@ interface AnalyticsPreferences {
   analyticsApiKey?: string;
   analyticsHost?: string;
   enableDebugMode?: boolean;
+  enableErrorReporting?: boolean;
+  enablePerformanceTracking?: boolean;
 }
 
 let analyticsInstance: PostHogAnalytics | null = null;
@@ -1896,6 +1898,7 @@ export { AlertManager };
 ```typescript
 // lib/privacy/privacy-manager.ts
 import { getPreferenceValues } from "@raycast/api";
+import { createHash } from "crypto";
 
 interface PrivacySettings {
   enableAnalytics: boolean;
@@ -2009,8 +2012,6 @@ class PrivacyManager {
   getDataRetentionDays(): number {
     return this.settings.dataRetentionDays;
   }
-
-import { createHash } from "crypto";
 
   private hashValue(value: string): string {
     return (
