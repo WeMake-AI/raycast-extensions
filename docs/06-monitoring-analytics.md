@@ -331,8 +331,8 @@ function initializeAnalytics(): PostHogAnalytics | null {
 
   try {
     const preferences = getPreferenceValues<AnalyticsPreferences>();
-
-    if (preferences.enableAnalytics === false) {
+    if (preferences.enableAnalytics !== true) {
+      // Default to disabled until user opts-in
       return null;
     }
 
@@ -340,8 +340,8 @@ function initializeAnalytics(): PostHogAnalytics | null {
       apiKey: preferences.analyticsApiKey || process.env.POSTHOG_API_KEY || "",
       host: preferences.analyticsHost || process.env.POSTHOG_HOST,
       debug: preferences.enableDebugMode || process.env.NODE_ENV === "development",
-      enableErrorTracking: true,
-      enablePerformanceTracking: true
+      enableErrorTracking: preferences.enableErrorReporting === true,
+      enablePerformanceTracking: preferences.enablePerformanceTracking === true
     };
 
     if (!config.apiKey) {
@@ -1933,12 +1933,12 @@ class PrivacyManager {
       }>();
 
       return {
-        enableAnalytics: preferences.enableAnalytics === false,
-        enableErrorReporting: preferences.enableErrorReporting === false,
-        enablePerformanceTracking: preferences.enablePerformanceTracking === false,
-        enableUserBehaviorTracking: preferences.enableUserBehaviorTracking === false,
+        enableAnalytics: preferences.enableAnalytics === true,
+        enableErrorReporting: preferences.enableErrorReporting === true,
+        enablePerformanceTracking: preferences.enablePerformanceTracking === true,
+        enableUserBehaviorTracking: preferences.enableUserBehaviorTracking === true,
         dataRetentionDays: preferences.dataRetentionDays || 90,
-        anonymizeData: preferences.anonymizeData !== true
+        anonymizeData: preferences.anonymizeData === true
       };
     } catch {
       // Default privacy-friendly settings
