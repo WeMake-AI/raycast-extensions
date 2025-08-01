@@ -92,6 +92,7 @@ graph TD
 import { PostHog } from "posthog-node";
 import { getPreferenceValues } from "@raycast/api";
 import { ExtensionMetrics, UserBehavior, ErrorEvent } from "../types/analytics";
+import { randomUUID } from "crypto";
 
 interface AnalyticsConfig {
   apiKey: string;
@@ -145,13 +146,9 @@ class PostHogAnalytics {
    * Generate anonymous user ID
    */
   private generateUserId(): string {
-    // Use machine-specific identifier without personal data
-import { randomUUID } from "crypto";
-
-private generateUserId(): string {
-  // Fully anonymous, collision-resistant identifier
-  return `raycast_${randomUUID().slice(0, 8)}`;
- }
+    // Fully anonymous, collision-resistant identifier
+    return `raycast_${randomUUID().slice(0, 8)}`;
+  }
 
   /**
    * Generate session ID
@@ -674,6 +671,7 @@ class PerformanceTracker {
   private analytics = getAnalytics();
   private timers = new Map<string, number>();
   private metrics: PerformanceMetric[] = [];
+  private memoryMonitorInterval: NodeJS.Timeout | null = null;
 
   private constructor() {
     this.setupPerformanceObserver();
@@ -688,9 +686,26 @@ class PerformanceTracker {
 
   private setupPerformanceObserver(): void {
     // Monitor memory usage periodically
-    setInterval(() => {
+    this.memoryMonitorInterval = setInterval(() => {
       this.trackMemoryUsage();
     }, 30000); // Every 30 seconds
+  }
+
+  /**
+   * Dispose of the performance tracker and clean up resources
+   * Call this during extension shutdown or unload
+   */
+  dispose(): void {
+    if (this.memoryMonitorInterval) {
+      clearInterval(this.memoryMonitorInterval);
+      this.memoryMonitorInterval = null;
+    }
+
+    // Clear any remaining timers
+    this.timers.clear();
+
+    // Clear metrics to free memory
+    this.metrics = [];
   }
 
   /**
@@ -949,6 +964,157 @@ export function usePerformance() {
       performanceTracker.trackMCPPerformance(server, operation, fn)
   };
 }
+```
+
+### Lifecycle Management & Cleanup
+
+```typescript
+// lib/lifecycle/manager.ts
+import { performanceTracker } from "../performance/tracker";
+import { getAnalytics } from "../hooks/useAnalytics";
+
+/**
+ * Extension lifecycle manager for proper resource cleanup
+ */
+class ExtensionLifecycleManager {
+  private static instance: ExtensionLifecycleManager;
+  private isShuttingDown = false;
+
+  static getInstance(): ExtensionLifecycleManager {
+    if (!ExtensionLifecycleManager.instance) {
+      ExtensionLifecycleManager.instance = new ExtensionLifecycleManager();
+    }
+    return ExtensionLifecycleManager.instance;
+  }
+
+  /**
+   * Initialize lifecycle management
+   * Call this when your extension starts
+   */
+  initialize(): void {
+    // Listen for process termination signals
+    process.on("SIGTERM", this.handleShutdown.bind(this));
+    process.on("SIGINT", this.handleShutdown.bind(this));
+    process.on("beforeExit", this.handleShutdown.bind(this));
+
+    // Listen for unhandled errors to ensure cleanup
+    process.on("uncaughtException", (error) => {
+      console.error("Uncaught exception:", error);
+      this.handleShutdown();
+    });
+  }
+
+  /**
+   * Handle extension shutdown and cleanup
+   */
+  private handleShutdown(): void {
+    if (this.isShuttingDown) return;
+    this.isShuttingDown = true;
+
+    console.log("Extension shutting down, cleaning up resources...");
+
+    try {
+      // Dispose performance tracker to clear intervals
+      performanceTracker.dispose();
+
+      // Flush any pending analytics events
+      const analytics = getAnalytics();
+      if (analytics && typeof analytics.flush === "function") {
+        analytics.flush();
+      }
+
+      console.log("Extension cleanup completed");
+    } catch (error) {
+      console.error("Error during extension cleanup:", error);
+    }
+  }
+
+  /**
+   * Manual cleanup method for testing or explicit shutdown
+   */
+  dispose(): void {
+    this.handleShutdown();
+  }
+}
+
+export const lifecycleManager = ExtensionLifecycleManager.getInstance();
+export { ExtensionLifecycleManager };
+```
+
+#### Usage in Extension Entry Point
+
+```typescript
+// src/index.tsx
+import { lifecycleManager } from "../lib/lifecycle/manager";
+
+// Initialize lifecycle management when extension starts
+lifecycleManager.initialize();
+
+// Your extension code here...
+export default function Command() {
+  // Component implementation
+}
+```
+
+#### Usage in React Components
+
+```typescript
+// hooks/useExtensionLifecycle.ts
+import { useEffect } from "react";
+import { lifecycleManager } from "../lib/lifecycle/manager";
+
+export function useExtensionLifecycle() {
+  useEffect(() => {
+    // Initialize lifecycle management
+    lifecycleManager.initialize();
+
+    // Cleanup on component unmount (for development hot reloading)
+    return () => {
+      // Note: In production, cleanup is handled by process signals
+      // This is mainly for development environment
+    };
+  }, []);
+}
+```
+
+#### Testing Cleanup
+
+```typescript
+// __tests__/performance-tracker.test.ts
+import { performanceTracker } from "../lib/performance/tracker";
+import { lifecycleManager } from "../lib/lifecycle/manager";
+
+describe("Performance Tracker Cleanup", () => {
+  afterEach(() => {
+    // Ensure cleanup after each test
+    performanceTracker.dispose();
+    lifecycleManager.dispose();
+  });
+
+  it("should clean up intervals when disposed", () => {
+    const clearIntervalSpy = jest.spyOn(global, "clearInterval");
+
+    // Create a new instance (triggers setupPerformanceObserver)
+    const tracker = performanceTracker;
+
+    // Dispose should clear the interval
+    tracker.dispose();
+
+    expect(clearIntervalSpy).toHaveBeenCalled();
+    clearIntervalSpy.mockRestore();
+  });
+
+  it("should handle multiple dispose calls safely", () => {
+    const tracker = performanceTracker;
+
+    // Multiple dispose calls should not throw
+    expect(() => {
+      tracker.dispose();
+      tracker.dispose();
+      tracker.dispose();
+    }).not.toThrow();
+  });
+});
 ```
 
 ## 📱 User Behavior Tracking
@@ -1767,12 +1933,12 @@ class PrivacyManager {
       }>();
 
       return {
-        enableAnalytics: preferences.enableAnalytics === true,
-        enableErrorReporting: preferences.enableErrorReporting !== false,
-        enablePerformanceTracking: preferences.enablePerformanceTracking !== false,
-        enableUserBehaviorTracking: preferences.enableUserBehaviorTracking !== false,
+        enableAnalytics: preferences.enableAnalytics === false,
+        enableErrorReporting: preferences.enableErrorReporting === false,
+        enablePerformanceTracking: preferences.enablePerformanceTracking === false,
+        enableUserBehaviorTracking: preferences.enableUserBehaviorTracking === false,
         dataRetentionDays: preferences.dataRetentionDays || 90,
-        anonymizeData: preferences.anonymizeData !== false
+        anonymizeData: preferences.anonymizeData !== true
       };
     } catch {
       // Default privacy-friendly settings
