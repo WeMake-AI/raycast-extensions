@@ -1992,14 +1992,13 @@ class PrivacyManager {
       return data;
     }
 
-    // Remove or hash sensitive fields
+    // Work on a shallow copy to avoid mutating caller-owned objects
+    const anonymized = { ...data };
     const sensitiveFields = ["email", "username", "userId", "sessionId"];
 
     for (const field of sensitiveFields) {
-      if (anonymized[field]) {
-        if (typeof anonymized[field] === "string") {
-          anonymized[field] = this.hashValue(anonymized[field]);
-        }
+      if (typeof anonymized[field] === "string") {
+        anonymized[field] = this.hashValue(anonymized[field]);
       }
     }
 
