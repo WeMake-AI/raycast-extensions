@@ -107,7 +107,7 @@ workspaces: [
 
 Each extension follows the standard Raycast extension structure:
 
-```
+```sh
 src/[extension-name]/
 ├── package.json         # Extension manifest and dependencies
 ├── tsconfig.json        # TypeScript configuration
@@ -125,7 +125,7 @@ src/[extension-name]/
 
 ### Shared Code Architecture
 
-```
+```sh
 shared/
 ├── components/          # Reusable UI components
 ├── hooks/               # Common React hooks

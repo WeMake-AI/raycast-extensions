@@ -9,7 +9,7 @@ everything from project structure to advanced integrations with MCP and AI SDK 5
 
 ### Standard Extension Layout
 
-```
+```sh
 src/my-extension/
 ├── assets/
 │   ├── icon.png              # Extension icon (512x512px)

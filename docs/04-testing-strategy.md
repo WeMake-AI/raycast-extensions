@@ -17,7 +17,7 @@ integration testing, extension-specific testing patterns, and automated testing 
 
 ### Testing Levels
 
-```
+```sh
     /\     E2E Tests (Few)
    /  \    - Extension workflows
   /    \   - User journeys
