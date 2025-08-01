@@ -18,14 +18,13 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "commonjs",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "verbatimModuleSyntax": true,
-    "target": "ES2022",
-    "lib": ["ES2022", "WebWorker"],
+    "verbatimModuleSyntax": false,
+    "target": "ES2023",
+    "lib": ["ES2023"],
     "noEmit": true,
     "sourceMap": true,
     "removeComments": true,
@@ -35,13 +34,15 @@
     "checkJs": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": false,
+    "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "useDefineForClassFields": true,
     "skipLibCheck": true,
-    "baseUrl": "."
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "types": ["node"]
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mts", "**/*.cts", "**/*.d.ts"],
-  "exclude": ["node_modules", ".nx/cache", ".nx/workspace-data"]
+  "exclude": ["node_modules", ".nx"]
 }
