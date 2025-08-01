@@ -365,30 +365,30 @@ export function useAPI<T>(fetcher: () => Promise<T>) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setIsLoading(true);
-        const result = await fetcher();
-        setData(result);
-        setError(null);
-      } catch (err) {
-        const error = err instanceof Error ? err : new Error(String(err));
-        setError(error);
-        await showToast({
-          style: Toast.Style.Failure,
-          title: "API Error",
-          message: error.message
-        });
-      } finally {
-        setIsLoading(false);
-      }
+  const fetchData = async () => {
+    setIsLoading(true);
+    try {
+      const result = await fetcher();
+      setData(result);
+      setError(null);
+    } catch (err) {
+      const error = err instanceof Error ? err : new Error(String(err));
+      setError(error);
+      await showToast({
+        style: Toast.Style.Failure,
+        title: "API Error",
+        message: error.message
+      });
+    } finally {
+      setIsLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetcher]);
 
-  return { data, isLoading, error, refetch: () => fetchData() };
+  return { data, isLoading, error, refetch: fetchData };
 }
 ```
 
