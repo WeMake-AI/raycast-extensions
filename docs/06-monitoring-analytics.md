@@ -146,8 +146,10 @@ class PostHogAnalytics {
    */
   private generateUserId(): string {
     // Use machine-specific identifier without personal data
-    const machineId = process.env.USER || "anonymous";
-    return `raycast_${Buffer.from(machineId).toString("base64").slice(0, 8)}`;
+    import { randomUUID } from "crypto";
+
+    // Fully anonymous, collision-resistant identifier
+    return `raycast_${randomUUID().slice(0, 8)}`;
   }
 
   /**
