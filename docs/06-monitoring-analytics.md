@@ -2010,15 +2010,17 @@ class PrivacyManager {
     return this.settings.dataRetentionDays;
   }
 
+import { createHash } from "crypto";
+
   private hashValue(value: string): string {
-    // Simple hash function (use crypto in production)
-    let hash = 0;
-    for (let i = 0; i < value.length; i++) {
-      const char = value.charCodeAt(i);
-      hash = (hash << 5) - hash + char;
-      hash = hash & hash; // Convert to 32-bit integer
-    }
-    return `hash_${Math.abs(hash).toString(36)}`;
+    return (
+      "hash_" +
+      createHash("sha256")
+        .update(value, "utf8")
+        .digest("hex")
+        .slice(0, 32) // shorten if needed
+    );
+  }
   }
 }
 
