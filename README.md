@@ -1,6 +1,7 @@
 # Private Extension Store
 
-Welcome to the private extension store of wemake. This is a place where you can collaborate on your extensions with your teammates.
+Welcome to the private extension store of wemake. This is a place where you can collaborate on your extensions with your
+teammates.
 
 ![Extension Store](https://raw.githubusercontent.com/raycast/extensions/main/images/header.png)
 
@@ -12,4 +13,5 @@ Welcome to the private extension store of wemake. This is a place where you can 
 
 ---
 
-Join our [Slack community](https://raycast.com/community) to send feedback, debug nasty bugs or simply get to know like-minded folks.
+Join our [Slack community](https://raycast.com/community) to send feedback, debug nasty bugs or simply get to know
+like-minded folks.
