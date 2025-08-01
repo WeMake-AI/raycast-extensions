@@ -244,17 +244,14 @@ This provides:
 ### 1. Generate Extension Structure
 
 ```sh
-# Navigate to workspace root
-cd raycast-extensions
-
-# Create new extension using Raycast CLI
+# Navigate to extensions directory
 cd src
-mkdir my-first-extension
-cd my-first-extension
 
-# Initialize Raycast extension
-bunx @raycast/api@latest init
+# Initialize Raycast dashboard template extension
+bunx init raycast-extension -t dashboard
 ```
+
+All templates can be found on the [templates page](https://www.raycast.com/templates).
 
 ### 2. Extension Configuration
 
