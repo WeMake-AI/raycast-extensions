@@ -418,7 +418,7 @@ jobs:
 
 ```typescript
 // scripts/publish.ts
-import { execSync } from "child_process";
+import { spawnSync } from "child_process";
 import { readFileSync, existsSync } from "fs";
 import path from "path";
 
@@ -479,10 +479,7 @@ class RaycastPublisher {
     console.log(`🔨 Building ${this.config.extension}...`);
 
     try {
-      execSync(`bun nx build ${this.config.extension}`, {
-        stdio: "inherit",
-        cwd: process.cwd()
-      });
+      spawnSync("bun", ["nx", "build", this.config.extension], { stdio: "inherit", cwd: process.cwd() });
       console.log(`✅ Build completed for ${this.config.extension}`);
     } catch (error) {
       throw new Error(`Build failed for ${this.config.extension}: ${error}`);
