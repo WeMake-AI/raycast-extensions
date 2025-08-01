@@ -146,11 +146,12 @@ class PostHogAnalytics {
    */
   private generateUserId(): string {
     // Use machine-specific identifier without personal data
-    import { randomUUID } from "crypto";
+import { randomUUID } from "crypto";
 
-    // Fully anonymous, collision-resistant identifier
-    return `raycast_${randomUUID().slice(0, 8)}`;
-  }
+private generateUserId(): string {
+  // Fully anonymous, collision-resistant identifier
+  return `raycast_${randomUUID().slice(0, 8)}`;
+ }
 
   /**
    * Generate session ID
@@ -1212,7 +1213,7 @@ export function getAnalyticsConfig(): AnalyticsEnvironmentConfig {
       "required": false,
       "title": "Enable Analytics",
       "description": "Help improve the extension by sharing anonymous usage data",
-      "default": true
+      "default": false
     },
     {
       "name": "enableErrorReporting",
@@ -1766,7 +1767,7 @@ class PrivacyManager {
       }>();
 
       return {
-        enableAnalytics: preferences.enableAnalytics !== false,
+        enableAnalytics: preferences.enableAnalytics === true,
         enableErrorReporting: preferences.enableErrorReporting !== false,
         enablePerformanceTracking: preferences.enablePerformanceTracking !== false,
         enableUserBehaviorTracking: preferences.enableUserBehaviorTracking !== false,
