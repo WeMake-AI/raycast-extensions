@@ -420,6 +420,7 @@ jobs:
 // scripts/publish.ts
 import { spawnSync } from "child_process";
 import { readFileSync, existsSync } from "fs";
+import { spawnSync, execSync } from "child_process";
 import path from "path";
 
 interface PublishConfig {
