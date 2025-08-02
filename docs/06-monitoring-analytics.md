@@ -1022,10 +1022,10 @@ class ExtensionLifecycleManager {
 
       // Flush any pending analytics events
       const analytics = getAnalytics();
-      if (analytics && typeof analytics.flush === "function") {
-        analytics.flush();
+      if (analytics) {
+        // Flush and fully close the underlying timers/socket
+        await analytics.shutdown();
       }
-
       console.log("Extension cleanup completed");
     } catch (error) {
       console.error("Error during extension cleanup:", error);
