@@ -91,7 +91,7 @@ graph TD
 // lib/analytics/posthog-service.ts
 import { PostHog } from "posthog-node";
 import { getPreferenceValues } from "@raycast/api";
-import { ExtensionMetrics, UserBehavior, ErrorEvent } from "../types/analytics";
+import { ExtensionMetrics, UserBehavior, ErrorEvent } from "../../types/analytics";
 import { randomUUID } from "crypto";
 
 interface AnalyticsConfig {
@@ -515,7 +515,7 @@ export default ErrorBoundary;
 
 ```typescript
 // lib/error-handler.ts
-import { getAnalytics } from "../hooks/useAnalytics";
+import { getAnalytics } from "../../hooks/useAnalytics";
 
 interface ErrorContext {
   component?: string;
@@ -659,7 +659,7 @@ export { GlobalErrorHandler };
 
 ```typescript
 // lib/performance/tracker.ts
-import { getAnalytics } from "../hooks/useAnalytics";
+import { getAnalytics } from "../../hooks/useAnalytics";
 
 interface PerformanceMetric {
   name: string;
@@ -974,7 +974,7 @@ export function usePerformance() {
 ```typescript
 // lib/lifecycle/manager.ts
 import { performanceTracker } from "../performance/tracker";
-import { getAnalytics } from "../hooks/useAnalytics";
+import { getAnalytics } from "../../hooks/useAnalytics";
 
 /**
  * Extension lifecycle manager for proper resource cleanup
@@ -1189,7 +1189,7 @@ export function withBehaviorTracking<P extends object>(
 
 ```typescript
 // lib/analytics/search-analytics.ts
-import { getAnalytics } from "../hooks/useAnalytics";
+import { getAnalytics } from "../../hooks/useAnalytics";
 
 interface SearchEvent {
   query: string;
@@ -1673,7 +1673,7 @@ export { AnalyticsReporter };
 
 ```typescript
 // lib/alerts/alert-manager.ts
-import { getAnalytics } from "../hooks/useAnalytics";
+import { getAnalytics } from "../../hooks/useAnalytics";
 
 interface AlertRule {
   name: string;
@@ -2028,7 +2028,7 @@ export { PrivacyManager };
 
 ```typescript
 // lib/privacy/data-retention.ts
-import { getAnalytics } from "../hooks/useAnalytics";
+import { getAnalytics } from "../../hooks/useAnalytics";
 
 class DataRetentionManager {
   private analytics = getAnalytics();
