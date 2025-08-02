@@ -724,24 +724,22 @@ class EncryptionService {
    */
   encrypt(text: string): string {
     try {
-      const cipher = createCipher("aes-256-cbc", this.encryptionKey);
+-     const cipher = createCipher("aes-256-cbc", this.encryptionKey);
++     const iv = randomBytes(16);
++     const cipher = createCipheriv(
++       "aes-256-gcm",
++       Buffer.from(this.encryptionKey, "hex"),
++       iv,
++     );
       let encrypted = cipher.update(text, "utf8", "hex");
       encrypted += cipher.final("hex");
-      return encrypted;
+-     return encrypted;
++     const authTag = cipher.getAuthTag();
++     return Buffer.concat([iv, authTag, Buffer.from(encrypted, "hex")]).toString("base64");
     } catch (error) {
       throw new Error(`Encryption failed: ${error}`);
     }
   }
-
-  /**
-   * Decrypt sensitive data
-   */
-  decrypt(encryptedText: string): string {
-    try {
-      const decipher = createDecipher("aes-256-cbc", this.encryptionKey);
-      let decrypted = decipher.update(encryptedText, "hex", "utf8");
-      decrypted += decipher.final("utf8");
-      return decrypted;
     } catch (error) {
       throw new Error(`Decryption failed: ${error}`);
     }
