@@ -181,10 +181,11 @@ class PostHogAnalytics {
       this.client.capture({
         distinctId: this.userId,
         event,
+        // Top-level timestamp → correct ingestion time
+        timestamp: new Date(),
         properties: {
           ...properties,
           sessionId: this.sessionId,
-          timestamp: new Date().toISOString(),
           $lib: "raycast-extension",
           $lib_version: "1.0.0"
         }
