@@ -532,10 +532,10 @@ class SecurityChecker {
 
   private processVulnerabilities(auditData: any): Vulnerability[] {
     // Process audit data and extract vulnerabilities
-    // Implementation depends on audit tool output format
-    return [];
+-    // Implementation depends on audit tool output format
+-    return [];
++    throw new Error("processVulnerabilities not implemented – cannot assess audit results");
   }
-
   private generateSummary(vulnerabilities: Vulnerability[]) {
     return vulnerabilities.reduce(
       (acc, vuln) => {
