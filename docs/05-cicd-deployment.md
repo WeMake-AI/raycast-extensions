@@ -98,7 +98,7 @@ jobs:
             EXTENSIONS=$(bun nx show projects --affected --type=app --json | jq -r '.[]' | tr '\n' ',' | sed 's/,$//')
           fi
 
-          echo "extensions=$EXTENSIONS" >> $GITHUB_OUTPUT
+          echo "extensions=$(printf '%s' "$EXTENSIONS" | jq -Rcs 'split(",")')" >> $GITHUB_OUTPUT 
 
           if [ -n "$EXTENSIONS" ]; then
             echo "has-changes=true" >> $GITHUB_OUTPUT
@@ -163,7 +163,7 @@ jobs:
     if: needs.setup.outputs.has-changes == 'true'
     strategy:
       matrix:
-        extension: ${{ fromJson(format('[{0}]', needs.setup.outputs.affected-extensions)) }}
+        extension: ${{ fromJson(needs.setup.outputs.affected-extensions) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -418,9 +418,8 @@ jobs:
 
 ```typescript
 // scripts/publish.ts
-import { spawnSync } from "child_process";
-import { readFileSync, existsSync } from "fs";
 import { spawnSync, execSync } from "child_process";
+import { readFileSync, existsSync } from "fs";
 import path from "path";
 
 interface PublishConfig {
@@ -479,12 +478,14 @@ class RaycastPublisher {
   private async buildExtension(): Promise<void> {
     console.log(`🔨 Building ${this.config.extension}...`);
 
-    try {
-      spawnSync("bun", ["nx", "build", this.config.extension], { stdio: "inherit", cwd: process.cwd() });
-      console.log(`✅ Build completed for ${this.config.extension}`);
-    } catch (error) {
-      throw new Error(`Build failed for ${this.config.extension}: ${error}`);
+    const result = spawnSync("bun", ["nx", "build", this.config.extension], {
+      stdio: "inherit",
+      cwd: process.cwd()
+    });
+    if (result.status !== 0) {
+      throw new Error(`Build failed for ${this.config.extension} with exit code ${result.status}`);
     }
+    console.log(`✅ Build completed for ${this.config.extension}`);
   }
 
   private async publishToRaycast(): Promise<void> {

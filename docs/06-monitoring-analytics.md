@@ -1010,7 +1010,7 @@ class ExtensionLifecycleManager {
   /**
    * Handle extension shutdown and cleanup
    */
-  private handleShutdown(): void {
+  private async handleShutdown(): Promise<void> {
     if (this.isShuttingDown) return;
     this.isShuttingDown = true;
 
@@ -1023,7 +1023,6 @@ class ExtensionLifecycleManager {
       // Flush any pending analytics events
       const analytics = getAnalytics();
       if (analytics) {
-        // Flush and fully close the underlying timers/socket
         await analytics.shutdown();
       }
       console.log("Extension cleanup completed");
